@@ -18,7 +18,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var player = SKSpriteNode()
     var endNode = SKSpriteNode()
     var startNode = SKSpriteNode()
+    var deathNode = SKSpriteNode()
     var level = 1
+   
     
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
@@ -26,6 +28,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player = self.childNode(withName: "rolleo") as! SKSpriteNode
         endNode = self.childNode(withName: "endNode") as! SKSpriteNode
         startNode = self.childNode(withName: "startNode") as! SKSpriteNode
+        deathNode = self.childNode(withName: "deathNode") as! SKSpriteNode
         
         manager.startAccelerometerUpdates()
         manager.accelerometerUpdateInterval = 0.1
@@ -74,7 +77,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             HighScore.hs.stop(level: level)
             NotificationCenter.default.post(name: NSNotification.Name(rawValue: "stop"), object: nil, userInfo: ["level":level])
         }
+        
+        else if bodyA.name == "deathNode" && bodyB.name == "rolleo" || bodyA.name == "rolleo" && bodyB.name == "deathNode" {
+            playerDies()
+        }
     }
+    
+    
+    func playerDies(){
+        
+        player.removeFromParent()
+        endNode.removeFromParent()
+        startNode.removeFromParent()
+        deathNode.removeFromParent()
+        
+        self.removeAllChildren()
+        self.removeAllActions()
+        self.scene?.removeFromParent()
+        
+        self.view?.window?.rootViewController?.dismiss(animated: true
+            , completion: nil)
+        
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "death"), object: nil)
+     
+    }
+        
+    
+        
+        
+    
     
     func touchDown(atPoint pos : CGPoint) {
         if let n = self.spinnyNode?.copy() as! SKShapeNode? {

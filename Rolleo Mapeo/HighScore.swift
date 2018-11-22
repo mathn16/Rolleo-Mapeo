@@ -16,7 +16,7 @@ class HighScore {
     var times: [Int]!
     var currentTime = Date()
     let decoder = JSONDecoder()
-    var firstTime = true
+    var firstTime = false
     let fileName = "highscores.txt"
     
     private init(){
@@ -43,7 +43,6 @@ class HighScore {
     
     func getDocumentsDirectory() -> URL {
         return FileManager.default.urls(for: .documentDirectory, in: FileManager.SearchPathDomainMask()).first!
-        return file
     }
     
     func stop(level: Int) {

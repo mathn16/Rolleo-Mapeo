@@ -17,6 +17,7 @@ class GameViewController: UIViewController {
         
         
         NotificationCenter.default.addObserver(self, selector: #selector(changeView), name: NSNotification.Name(rawValue:"stop"), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(showDeathPopup), name: NSNotification.Name(rawValue: "death"), object: nil)
         //NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "stop"), object: nil, queue: OperationQueue.main){(notification) in
         
         if let view = self.view as! SKView? {
@@ -61,5 +62,19 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    @objc func showDeathPopup(){
+        
+    
+        let deathPopUp = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "deathPopup") as! PopUpViewController
+        self.addChild(deathPopUp)
+        
+        deathPopUp.view.frame = self.view.frame
+        self.view.addSubview(deathPopUp.view)
+        deathPopUp.didMove(toParent: self)
+        
+        
+        
     }
 }
