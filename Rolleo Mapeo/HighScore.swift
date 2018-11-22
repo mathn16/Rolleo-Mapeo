@@ -16,10 +16,24 @@ class HighScore {
     var times: [Int]!
     var currentTime = Date()
     let decoder = JSONDecoder()
-    var firstTime = false
+    var firstTime = true
     let fileName = "highscores.txt"
+    let encoder = JSONEncoder()
+    let path: URL
+    let test:[Int] = [17, 33, 64]
     
     private init(){
+        path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appendingPathComponent(fileName)
+        
+        let jsonData: Data? = try? encoder.encode(test)
+        do {
+            try jsonData?.write(to: path)
+            print("Create file was succesful")
+        } catch {
+            print("Create file was not succesful")
+        }
+        
+        
     }
     
     func start(){
@@ -27,33 +41,32 @@ class HighScore {
             var jsonString = [String]()
             
             do {
-                jsonString = try String(contentsOf: getDocumentsDirectory().appendingPathComponent(fileName), encoding: .utf8).components(separatedBy: " ")
+                print(path)
+                jsonString = try String(contentsOf: path, encoding: .utf8).components(separatedBy: " ")
             } catch {
                 print("Something went wrong trying to get the highscores file")
                 times = [Int]()
             }
-            
-            for highscore in jsonString{
-                times.append(Int(highscore)!)
+            for s in jsonString {
+                if s == nil {
+                    times.append(Int(s as String)!)
+                }
             }
             firstTime = false
         }
         currentTime = Date()
     }
     
-    func getDocumentsDirectory() -> URL {
-        return FileManager.default.urls(for: .documentDirectory, in: FileManager.SearchPathDomainMask()).first!
-    }
-    
     func stop(level: Int) {
         if passed {
             times.append(Int(Date().timeIntervalSince(currentTime)))
             
-            let jsonData: Data? = try? JSONEncoder().encode(times)
+            let jsonData: Data? = try? encoder.encode(times)
             let jsonString = String(bytes: jsonData!, encoding: .utf8)
             
+            
             do {
-                try jsonString?.write(to: getDocumentsDirectory().appendingPathComponent(fileName), atomically: true, encoding: .utf8)
+                try jsonString?.write(to: path, atomically: true, encoding: .utf8)
             } catch {
                 print("oh boy")
             }
