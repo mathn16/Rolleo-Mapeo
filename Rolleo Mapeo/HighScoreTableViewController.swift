@@ -17,10 +17,12 @@ class HighScoreTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        timesArray = Storage.retrieve("times.json", from: .documents, as: HighscoreStruct.self)
+        if let array = Storage.retrieve("times.json", from: .documents, as: HighscoreStruct.self){
+            tableArray = array.get().sorted()
+        }
+        
         tableView.delegate = self
         tableView.dataSource = self
-        tableArray = timesArray.get()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "customCell")
  
     }

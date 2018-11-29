@@ -31,7 +31,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         deathNode = self.childNode(withName: "deathNode") as! SKSpriteNode
         
         manager.startAccelerometerUpdates()
-        manager.accelerometerUpdateInterval = 0.1
+        manager.accelerometerUpdateInterval = 0.01
         manager.startAccelerometerUpdates(to: OperationQueue.main){
             (data, error) in
             

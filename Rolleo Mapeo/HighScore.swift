@@ -40,4 +40,7 @@ class HighScore {
             
         }
     }
+    func clear(){
+        Storage.remove("times.json", from: .documents)
+    }
 }
