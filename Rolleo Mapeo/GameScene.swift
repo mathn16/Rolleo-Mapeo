@@ -95,9 +95,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.removeAllActions()
         self.scene?.removeFromParent()
         
+        //deletes scene whenever the player dies
         self.view?.window?.rootViewController?.dismiss(animated: true
             , completion: nil)
         
+        //shows the death pop up screen
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "death"), object: nil)
      
     }
