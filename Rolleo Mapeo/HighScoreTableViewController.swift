@@ -8,7 +8,7 @@
 
 import UIKit
 
-class HighScoreTableViewController: UITableViewController{
+class HighScoreTableViewController: UITableViewController {
     
     var timesArray = HighscoreStruct()
     var tableArray = [Double]()
@@ -16,11 +16,13 @@ class HighScoreTableViewController: UITableViewController{
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         timesArray = Storage.retrieve("times.json", from: .documents, as: HighscoreStruct.self)
-        
-     
+        tableView.delegate = self
+        tableView.dataSource = self
         tableArray = timesArray.get()
-        
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "customCell")
+ 
     }
     
     override func didReceiveMemoryWarning() {
@@ -28,23 +30,16 @@ class HighScoreTableViewController: UITableViewController{
     }
     
     
-    
-    
-    func tableView(tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "customcell", for: indexPath)
-        
-        
-        var times : Double
-        times = tableArray[indexPath.row]
-        
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath)
+        let times = tableArray[indexPath.row]
         cell.textLabel?.text = String(times)
-        
         return cell
     }
-    
+ 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return tableArray.count
     }
-    
+ 
     
 }
