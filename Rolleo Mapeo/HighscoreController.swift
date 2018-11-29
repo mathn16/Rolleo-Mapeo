@@ -33,7 +33,17 @@ class HighscoreController: UIViewController {
     }
      */
     
+    /*@IBOutlet weak var tableView: UITableView!
     
+    func highScoreFiller(highscores: [Double]) -> Int {
+        return highscores.count
+    }
+    
+    func setupTableView() -> UITableViewCell{
+        let cell = tableView.cellForRow(at: <#T##IndexPath#>)
+        return
+    }
+    */
     /*
     // MARK: - Navigation
 
